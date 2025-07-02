@@ -181,7 +181,7 @@ jobs:
     if: github.event_name == 'pull_request' && ${{ needs.detect-changes.outputs.changed_dirs != '[]' }}
 
     steps:
-      - name:
+      - name: Checkout GitHub Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
@@ -194,5 +194,3 @@ jobs:
           output-method: inject
           git-push: "true"
           git-commit-message: "docs: update README"
-
-        

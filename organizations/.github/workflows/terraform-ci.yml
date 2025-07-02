@@ -1,12 +1,12 @@
 name: Terraform CI
 
 env:
-  TERRAFORM_VERSION: "1.10.5"
+  TERRAFORM_VERSION: "1.12.2"
 
 on:
   pull_request:
     paths: 
-      - "directory/**/*.tf"
+      - "organizations/*.tf"
 
 permissions:
   contents: write

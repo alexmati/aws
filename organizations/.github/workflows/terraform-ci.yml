@@ -52,7 +52,6 @@ jobs:
       - name: Configure AWS Credentials for Europe Region
         uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
-          audience: sts.amazonaws.com.cn
           aws-region: eu-west-2
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           

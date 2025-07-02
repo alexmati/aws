@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
   security-events: write
   pull-requests: write
   actions: read
@@ -48,14 +49,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS Credentials for Europe Region
+        uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          audience: sts.amazonaws.com.cn
+          aws-region: eu-west-2
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
-          aws-region: ${{ secrets.AWS_REGION }}
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

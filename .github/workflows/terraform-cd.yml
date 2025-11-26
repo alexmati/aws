@@ -15,6 +15,7 @@ permissions:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    environment: organizations
 
     steps:
       - name: Checkout Repository

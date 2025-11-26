@@ -1,8 +1,5 @@
 name: Terraform Deploy
 
-env:
-  ACTIONS_STEP_DEBUG: true
-
 on:
   workflow_dispatch:
   push:
@@ -15,7 +12,6 @@ permissions:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    environment: organizations
 
     steps:
       - name: Checkout Repository

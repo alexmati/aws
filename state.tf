@@ -30,7 +30,7 @@ resource "aws_s3_bucket_policy" "terraform_state" {
         Principal = {
           AWS = data.aws_iam_role.deployment.arn
         }
-        Action = "s3:ListBucket"
+        Action   = "s3:ListBucket"
         Resource = data.aws_s3_bucket.terraform_state.arn
       },
       {

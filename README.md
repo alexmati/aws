@@ -1,2 +1,2 @@
 # aws
-Random AWS Infrastructure
+AWS Organizations Setup

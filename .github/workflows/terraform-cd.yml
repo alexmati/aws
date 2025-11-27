@@ -45,4 +45,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
-        run: terraform apply tfplan -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false tfplan

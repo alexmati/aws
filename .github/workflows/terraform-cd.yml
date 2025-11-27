@@ -29,6 +29,14 @@ jobs:
         with:
           terraform_version: 1.14.0
 
+      - name: Generate tfvars from secrets
+        run: |
+          cat <<EOF > terraform.tfvars
+          development_email = "${{ secrets.DEVELOPMENT_EMAIL }}"
+          uat_email = "${{ secrets.UAT_EMAIL}}
+          production_email = "${{ secrets.PRODUCTION_EMAIL }}"
+          EOF
+
       - name: Terraform Init
         run: terraform init
 

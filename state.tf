@@ -1,5 +1,5 @@
 data "aws_s3_bucket" "organizations_state" {
-  bucket = "organizations-terraform-state-${data.aws_caller_identity.current}"
+  bucket = "organizations-terraform-state-123"
 }
 
 resource "aws_s3_bucket_versioning" "terraform_state" {

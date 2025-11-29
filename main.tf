@@ -38,3 +38,7 @@ resource "aws_organizations_account" "production" {
   parent_id = aws_organizations_organizational_unit.production.id
 }
 
+module "account_setup" {
+  for_each = local.accounts
+  source   = "./modules/setup"
+}

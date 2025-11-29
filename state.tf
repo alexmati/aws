@@ -1,7 +1,3 @@
-data "aws_s3_bucket" "organizations_state" {
-  bucket = "organizations-terraform-state-123"
-}
-
 resource "aws_s3_bucket_versioning" "terraform_state" {
   bucket = data.aws_s3_bucket.organizations_state.id
 
@@ -10,7 +6,7 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
+resource "aws_s3_bucket_public_access_block" "block_all" {
   bucket = data.aws_s3_bucket.organizations_state.id
 
   block_public_acls       = true

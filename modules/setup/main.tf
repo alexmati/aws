@@ -70,6 +70,9 @@ resource "aws_iam_role" "github_oidc" {
 resource "random_string" "suffix" {
   length  = 3
   numeric = true
+  upper   = false
+  lower   = false
+  special = false
 }
 
 resource "aws_s3_bucket" "terraform_state" {

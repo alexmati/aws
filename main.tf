@@ -40,15 +40,39 @@ resource "aws_organizations_account" "production" {
 
 module "github_oidc_dev" {
   source   = "./modules/setup"
-  providers = { aws = aws.development }
+  providers = { 
+    aws = aws.development 
+  }
+
+  daily_limit = "10"
+  daily_threshold = 10
+  monthly_limit = "50"
+  monthly_threshold = 50
+  budget_notification_email = var.development_email
 }
 
 module "github_oidc_uat" {
   source   = "./modules/setup"
-  providers = { aws = aws.uat }
+  providers = { 
+    aws = aws.uat 
+  }
+
+  daily_limit = "10"
+  daily_threshold = 10
+  monthly_limit = "50"
+  monthly_threshold = 50
+  budget_notification_email = var.uat_email
 }
 
 module "github_oidc_prod" {
   source   = "./modules/setup"
-  providers = { aws = aws.production }
+  providers = { 
+    aws = aws.production 
+  }
+
+  daily_limit = "10"
+  daily_threshold = 10
+  monthly_limit = "50"
+  monthly_threshold = 50
+  budget_notification_email = var.production_email
 }

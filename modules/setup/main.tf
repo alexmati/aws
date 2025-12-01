@@ -95,3 +95,57 @@ resource "aws_s3_bucket_public_access_block" "public_block_all" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_budgets_budget" "daily_actual_costs" {
+  name              = "daily-actual-costs"
+  budget_type       = "COST"
+  limit_amount      = var.daily_limit
+  limit_unit        = "USD"
+  time_period_end   = "2087-06-15_00:00"
+  time_period_start = "2025-11-01_00:00"
+  time_unit         = "DAILY"
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = var.daily_threshold
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "ACTUAL"
+    subscriber_email_addresses = [var.budget_notification_email]
+  }
+}
+
+resource "aws_budgets_budget" "monthly_forecasted_costs" {
+  name              = "monthly-forecasted-costs"
+  budget_type       = "COST"
+  limit_amount      = var.monthly_limit
+  limit_unit        = "USD"
+  time_period_end   = "2087-06-15_00:00"
+  time_period_start = "2025-11-01_00:00"
+  time_unit         = "MONTHLY"
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = var.monthly_threshold
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "FORECASTED"
+    subscriber_email_addresses = [var.budget_notification_email]
+  }
+}
+
+resource "aws_budgets_budget" "monthly_actual_costs" {
+  name              = "monthly-actual-costs"
+  budget_type       = "COST"
+  limit_amount      = var.monthly_limit
+  limit_unit        = "USD"
+  time_period_end   = "2087-06-15_00:00"
+  time_period_start = "2025-11-01_00:00"
+  time_unit         = "MONTHLY"
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = var.monthly_threshold
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "ACTUAL"
+    subscriber_email_addresses = [var.budget_notification_email]
+  }
+}

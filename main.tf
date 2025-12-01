@@ -49,6 +49,7 @@ module "github_oidc_dev" {
   monthly_limit = "50"
   monthly_threshold = 50
   budget_notification_email = var.development_email
+  anomaly_threshold = ["75"]
 }
 
 module "github_oidc_uat" {
@@ -62,6 +63,7 @@ module "github_oidc_uat" {
   monthly_limit = "50"
   monthly_threshold = 50
   budget_notification_email = var.uat_email
+  anomaly_threshold = ["75"]
 }
 
 module "github_oidc_prod" {
@@ -75,4 +77,5 @@ module "github_oidc_prod" {
   monthly_limit = "50"
   monthly_threshold = 50
   budget_notification_email = var.production_email
+  anomaly_threshold = ["75"]
 }

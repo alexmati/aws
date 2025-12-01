@@ -149,3 +149,31 @@ resource "aws_budgets_budget" "monthly_actual_costs" {
     subscriber_email_addresses = [var.budget_notification_email]
   }
 }
+
+resource "aws_ce_anomaly_monitor" "service_monitor" {
+  name              = "aws-service-monitor"
+  monitor_type      = "DIMENSIONAL"
+  monitor_dimension = "SERVICE"
+}
+
+resource "aws_ce_anomaly_subscription" "service_monitor_subscription" {
+  name      = "daily-subscription"
+  frequency = "DAILY"
+
+  monitor_arn_list = [
+    aws_ce_anomaly_monitor.service_monitor.arn
+  ]
+
+  subscriber {
+    type    = "EMAIL"
+    address = var.budget_notification_email
+  }
+
+  threshold_expression {
+    dimension {
+      key           = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+      match_options = ["GREATER_THAN_OR_EQUAL"]
+      values        = var.anomaly_threshold
+    }
+  }
+}

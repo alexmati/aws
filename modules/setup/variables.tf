@@ -22,3 +22,8 @@ variable "budget_notification_email" {
   type        = string
   description = "Email Address Required for Budget/Billing Notifications"
 }
+
+variable "anomaly_threshold" {
+  type = set(string)
+  description = "Value to set for Anomaly Detection Threshold"
+}

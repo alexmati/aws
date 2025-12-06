@@ -42,33 +42,6 @@ resource "aws_organizations_account" "production" {
   parent_id = aws_organizations_organizational_unit.production.id
 }
 
-resource "aws_organizations_policy" "deny_without_mfa" {
-  name        = "DenyWithoutMFA"
-  description = "Deny all actions unless MFA is enabled"
-  type        = "SERVICE_CONTROL_POLICY"
-
-  content = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Deny",
-        Action   = "*",
-        Resource = "*",
-        Condition = {
-          BoolIfExists = {
-            "aws:MultiFactorAuthPresent" = "false"
-          }
-        }
-      }
-    ]
-  })
-}
-
-resource "aws_organizations_policy_attachment" "deny_without_mfa_to_ou" {
-  policy_id = aws_organizations_policy.deny_without_mfa.id
-  target_id = aws_organizations_organizational_unit.development.id
-}
-
 module "github_oidc_dev" {
   source = "./modules/setup"
   providers = {

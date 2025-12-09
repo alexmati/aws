@@ -178,125 +178,125 @@ resource "aws_ce_anomaly_subscription" "service_monitor_subscription" {
   }
 }
 
-resource "aws_organizations_policy" "allowed_services" {
-  name        = "AllowListPolicy"
-  description = "Allow only a defined list of AWS services"
-  type        = "SERVICE_CONTROL_POLICY"
+# resource "aws_organizations_policy" "allowed_services" {
+#   name        = "AllowListPolicy"
+#   description = "Allow only a defined list of AWS services"
+#   type        = "SERVICE_CONTROL_POLICY"
 
-  content = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid    = "DenyAllOutsideAllowList"
-        Effect = "Deny"
-        NotAction = [
-          "sts:*",
-          "iam:*",
-          "cloudtrail:*",
-          "logs:*",
-          "cloudwatch:*",
-          "s3:*",
-          "dynamodb:*",
-          "lambda:*",
-          "sns:*",
-          "sqs:*",
-          "kms:*",
-          "ec2:*",
-          "aws-portal:*",
-          "budgets:*",
-          "ce:*",
-          "account:*",
-          "organizations:*",
-          "guardduty:*",
-          "support:*",
-          "health:*"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
+#   content = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Sid    = "DenyAllOutsideAllowList"
+#         Effect = "Deny"
+#         NotAction = [
+#           "sts:*",
+#           "iam:*",
+#           "cloudtrail:*",
+#           "logs:*",
+#           "cloudwatch:*",
+#           "s3:*",
+#           "dynamodb:*",
+#           "lambda:*",
+#           "sns:*",
+#           "sqs:*",
+#           "kms:*",
+#           "ec2:*",
+#           "aws-portal:*",
+#           "budgets:*",
+#           "ce:*",
+#           "account:*",
+#           "organizations:*",
+#           "guardduty:*",
+#           "support:*",
+#           "health:*"
+#         ]
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
 
-resource "aws_organizations_policy" "deny_without_mfa" {
-  name        = "DenyWithoutMFA"
-  description = "Deny all actions unless MFA is enabled"
-  type        = "SERVICE_CONTROL_POLICY"
+# resource "aws_organizations_policy" "deny_without_mfa" {
+#   name        = "DenyWithoutMFA"
+#   description = "Deny all actions unless MFA is enabled"
+#   type        = "SERVICE_CONTROL_POLICY"
 
-  content = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect   = "Deny",
-        Action   = "*",
-        Resource = "*",
-        Condition = {
-          BoolIfExists = {
-            "aws:MultiFactorAuthPresent" = "false"
-          }
-        }
-      }
-    ]
-  })
-}
+#   content = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Effect   = "Deny",
+#         Action   = "*",
+#         Resource = "*",
+#         Condition = {
+#           BoolIfExists = {
+#             "aws:MultiFactorAuthPresent" = "false"
+#           }
+#         }
+#       }
+#     ]
+#   })
+# }
 
-resource "aws_organizations_policy" "deny_ec2_instances" {
-  name        = "DenyNonFreeTierEC2Instances"
-  description = "Deny running EC2 Instances that don't fall within the AWS Free Tier"
-  type        = "SERVICE_CONTROL_POLICY"
+# resource "aws_organizations_policy" "deny_ec2_instances" {
+#   name        = "DenyNonFreeTierEC2Instances"
+#   description = "Deny running EC2 Instances that don't fall within the AWS Free Tier"
+#   type        = "SERVICE_CONTROL_POLICY"
 
-  content = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Sid    = "DenyNonFreeTierEC2Instances",
-        Effect = "Deny",
-        Action = [
-          "ec2:RunInstances",
-          "ec2:ModifyInstanceAttribute",
-          "ec2:StartInstances"
-        ]
-        Resource = "*",
-        Condition = {
-          StringNotEquals = {
-            "ec2:InstanceType" = [
-              "t3.micro"
-            ]
-          }
-        }
-      }
-    ]
-  })
-}
+#   content = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Sid    = "DenyNonFreeTierEC2Instances",
+#         Effect = "Deny",
+#         Action = [
+#           "ec2:RunInstances",
+#           "ec2:ModifyInstanceAttribute",
+#           "ec2:StartInstances"
+#         ]
+#         Resource = "*",
+#         Condition = {
+#           StringNotEquals = {
+#             "ec2:InstanceType" = [
+#               "t3.micro"
+#             ]
+#           }
+#         }
+#       }
+#     ]
+#   })
+# }
 
-resource "aws_organizations_policy" "deny_rds_instances" {
-  name        = "DenyNonFreeTierRDSInstances"
-  description = "Deny running RDS Instances that don't fall within the AWS Free Tier"
-  type        = "SERVICE_CONTROL_POLICY"
+# resource "aws_organizations_policy" "deny_rds_instances" {
+#   name        = "DenyNonFreeTierRDSInstances"
+#   description = "Deny running RDS Instances that don't fall within the AWS Free Tier"
+#   type        = "SERVICE_CONTROL_POLICY"
 
-  content = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-    {
-      Sid = "DenyNonFreeTierRDSInstances"
-      Effect = "Deny"
-      Action = [
-        "rds:CreateDBInstance",
-        "rds:ModifyDBInstance"
-      ]
-      Resource = "*"
-      Condition = {
-        StringNotEquals = {
-          "rds:DBInstanceClass" = [
-            "db.t3.micro"
-          ]
-        }
-      }
-    }
-    ]
-  })
-}
+#   content = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#     {
+#       Sid = "DenyNonFreeTierRDSInstances"
+#       Effect = "Deny"
+#       Action = [
+#         "rds:CreateDBInstance",
+#         "rds:ModifyDBInstance"
+#       ]
+#       Resource = "*"
+#       Condition = {
+#         StringNotEquals = {
+#           "rds:DBInstanceClass" = [
+#             "db.t3.micro"
+#           ]
+#         }
+#       }
+#     }
+#     ]
+#   })
+# }
 
-resource "aws_organizations_policy_attachment" "deny_without_mfa_to_ou" {
-  policy_id = aws_organizations_policy.deny_without_mfa.id
-  target_id = aws_organizations_organizational_unit.development.id
-}
+# resource "aws_organizations_policy_attachment" "deny_without_mfa_to_ou" {
+#   policy_id = aws_organizations_policy.deny_without_mfa.id
+#   target_id = aws_organizations_organizational_unit.development.id
+# }
